@@ -1,0 +1,40 @@
+type SaleInfo {
+  customer_id: String
+  payment_method: String
+  sales: Float
+  points: Float
+  datetime: String
+  additional_item: String
+}
+
+input AdditionalItem {
+  last_4: String
+  courier_service: String
+  bank: String
+  account_number: String
+  cheque_number: String
+}
+
+input SaleInfoGraphQLRequest {
+  customer_id: String!
+  price: Float!
+  price_modifier: Float
+  payment_method: String!
+  datetime: String!,
+  additional_item: AdditionalItem
+}
+
+type MutationResponse {
+  final_price: Float
+  points: Float
+  errors: String
+}
+
+type Query {
+  allSales: [SaleInfo],
+  salesByTimeRange(start_time: String, end_time: String): [SaleInfo]
+}
+
+type Mutation{
+  saveSaleInfo(input: SaleInfoGraphQLRequest): MutationResponse
+}

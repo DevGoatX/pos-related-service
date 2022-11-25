@@ -1,0 +1,13 @@
+mutation {
+    saveSaleInfo(input: {
+        "customer_id": "12345"
+        "price": "100",
+        "price_modifier": "0.95"
+        "payment_method": "CASH",
+        "datetime": "2022-09-07T00:00:00Z"
+    }) {
+        final_price,
+        points,
+        errors
+    }
+}

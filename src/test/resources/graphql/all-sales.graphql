@@ -1,0 +1,10 @@
+query {
+    allSales {
+        customer_id,
+        payment_method,
+        sales,
+        points,
+        datetime,
+        additional_item
+    }
+}
