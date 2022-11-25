@@ -32,4 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 
+### sqlite db file
+*.sqlite
+
+### mac os file ###
 .DS_Store

@@ -114,3 +114,152 @@ $ mvn package
 $ cd target
 $ java -jar pos-related-service-0.0.1-SNAPSHOT.jar
 ```
+#### Web APIs
+**localhost:9000/save-sale**
+ 
+Request format
+```json
+{
+  "customer_id": "12234",
+  "price": "100",
+  "price_modifier": "0.95",
+  "payment_method": "MASTERCARD",
+  "datetime": "2022-11-20T22:10:39Z",
+  "additional_item": {
+    "last_4": "1111"
+  }
+}
+```
+Response format
+```json
+{
+  "success": true,
+  "result": {
+    "final_price": "95",
+    "points": "5"
+  },
+  "errList": []
+}
+```
+<br>
+
+**localhost:9000/all-sales**
+
+Response format
+```json
+{
+  "success": true,
+  "result":[{
+      "customer_id": "12234",
+      "payment_method": "MASTERCARD",
+      "sales": "95",
+      "points": "5",
+      "datetime": "2022-11-20T22:10:39Z",
+      "additional_item": {
+        "last_4": "1111"
+      }
+    },{
+        "customer_id": "12234",
+        "payment_method": "CASH",
+        "sales": "98",
+        "points": "0",
+        "datetime": "2022-11-23T22:10:39Z",
+        "additional_item": {
+        }       
+    }],
+    "errList": []
+  }
+```
+
+
+localhost:9000/sales-by-time-range
+
+Request Url Param
+```
+start_time: 2022-10-20T00:00:00Z
+end_time: 2022-11-22T23:59:59Z
+```
+
+Response format
+```json
+{
+  "success": true,
+  "result":[{
+      "customer_id": "12234",
+      "payment_method": "MASTERCARD",
+      "sales": "95",
+      "points": "5",
+      "datetime": "2022-11-20T22:10:39Z",
+      "additional_item": {
+        "last_4": "1111"
+      }
+    },{
+        "customer_id": "12234",
+        "payment_method": "CASH",
+        "sales": "98",
+        "points": "0",
+        "datetime": "2022-11-23T22:10:39Z",
+        "additional_item": {
+        }       
+    }],
+    "errList": []
+  }
+```
+<br>
+
+#### GraphQL
+**url: localhost:9000/graphql**
+
+Save Query And Variables Format
+```
+mutation($input: SaleInfoGraphQLRequest) {
+    saveSaleInfo(input: $input) {
+        final_price,
+        points, 
+        errors
+    }
+}
+```
+
+```json
+{
+    "input": {
+        "customer_id": "12345",
+        "price": 100.00,
+        "payment_method": "PAYPAY",
+        "datetime": "2022-09-07T00:00:00Z"
+    }
+}
+```
+
+All Sale Query
+```
+query {
+    allSales {
+        customer_id,
+        payment_method,
+        sales,
+        points,
+        datetime,
+        additional_item
+    }
+}
+```
+
+Sale Query And Variable Format By Time Range
+```
+query($start_time: String, $end_time: String) {
+    salesByTimeRange(start_time: $start_time, end_time: $end_time) {
+        customer_id,
+        payment_method,
+        sales,
+        points
+    }
+}
+```
+```json
+{
+    "start_time": "2022-06-10T11:11:11Z",
+    "end_time": "2022-12-10T11:11:11Z"
+}
+```
